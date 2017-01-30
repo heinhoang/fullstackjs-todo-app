@@ -1,4 +1,5 @@
 var $ = require('jquery'); 
+var todoTemplate = require("../views/partials/todo.hbs");
 
 $(function() {
     var addTodo = function() {
@@ -12,7 +13,7 @@ $(function() {
       dataType: 'json',
       success: function(data) {
         var todo = data.todo;
-        var newLiHtml = '<li><input type="checkbox"><span> ' + todo.text + '</span></li>';
+        var newLiHtml = todoTemplate(todo);
        $('form + ul').append(newLiHtml);
        $('#add-todo-text').val('');
       }
