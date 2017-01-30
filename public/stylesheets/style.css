@@ -11,3 +11,10 @@ body {
     list-style-type: none; }
     body ul .checked span {
       text-decoration: line-through; }
+
+.hide {
+  display: none; }
+
+.footer div {
+  float: left;
+  padding: 0 10px; }

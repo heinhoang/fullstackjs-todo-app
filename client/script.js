@@ -98,3 +98,51 @@ $('ul').on('click', 'li a', function() {
     deleteTodoLi($li);
   });
 });
+
+// Count todos
+// Add an observer in script.js to watch our Todos for changes
+var initTodoObserver = function() {
+  var target = $('ul')[0];
+  var config = { attributes: true, childList: true, characterData: true };
+  var observer = new MutationObserver(function(mutationRecords) {
+    $.each(mutationRecords, function(index, mutationRecord) {
+      updateTodoCount();
+    });
+  });
+  if(target) {
+    observer.observe(target, config);
+  }
+  updateTodoCount();
+}
+// Add an Update Count function
+var updateTodoCount = function() {
+  $('.count').text($('li').length);
+}
+initTodoObserver();
+
+// Filter todos
+$('.filter').on('click', '.show-all', function() {
+   $('.hide').removeClass('hide');
+ });
+ $('.filter').on('click', '.show-not-done', function() {
+   $('.hide').removeClass('hide');
+   $('.checked').closest('li').addClass('hide');
+ });
+ $('.filter').on('click', '.show-done', function() {
+   $('li').addClass('hide');
+   $('.checked').closest('li').removeClass('hide');
+ });
+
+//  Clear todos
+$(".clear").on("click", function() {
+   var $doneLi = $(".checked").closest("li");
+   for (var i = 0; i < $doneLi.length; i++) {
+     var $li = $($doneLi[i]); //you get a li out, and still need to convert into $li
+     var id = $li.attr('id');
+     (function($li){
+       deleteTodo(id, function(){
+                       deleteTodoLi($li);
+       });
+     })($li);
+   }
+ });
